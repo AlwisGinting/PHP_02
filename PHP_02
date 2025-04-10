@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Sederhana</title>
+</head>
+<body>
+
+<?php
+$loginStatus = "";
+
+function manual_reverse($text) {
+    $reversed = "";
+    for ($i = strlen($text) - 1; $i >= 0; $i--) {
+        $reversed .= $text[$i];
+    }
+    return $reversed;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = isset($_POST["username"]) ? trim($_POST["username"]) : "";
+    $password = isset($_POST["password"]) ? trim($_POST["password"]) : "";
+
+    if ($username === "" || $password === "") {
+        $loginStatus = "Username dan Password tidak boleh kosong.";
+    } else {
+        $password_reverse = manual_reverse($username);
+        if ($password === $password_reverse) {
+            $loginStatus = "<span style='color:green;'>Login berhasil!</span>";
+        } else {
+            $loginStatus = "<span style='color:red;'>Login gagal! Password tidak sesuai.</span>";
+        }
+    }
+}
+?>
+
+<h2>Form Login</h2>
+<form method="post" action="">
+    <label>Username:</label><br>
+    <input type="text" name="username"><br><br>
+
+    <label>Password:</label><br>
+    <input type="text" name="password"><br><br>
+
+    <input type="submit" value="Login">
+</form>
+
+<p><?= $loginStatus ?></p>
+
+</body>
+</html>
